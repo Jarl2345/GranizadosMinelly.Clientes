@@ -632,22 +632,22 @@
     <!-- MODAL TICKET -->
     <div id="modalTicket" class="modal-overlay">
         <div class="ticket-card">
-            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉[cite: 9]</span>
-            <div style="font-size:12px; color:#636e72;">Número de Orden[cite: 9]</div>
-            <div class="ticket-turno-val" id="tckNumero">#1[cite: 9]</div>
+            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉</span>
+            <div style="font-size:12px; color:#636e72;">Número de Orden</div>
+            <div class="ticket-turno-val" id="tckNumero">#1</div>
             
             <div class="ticket-info-box">
-                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span>[cite: 9]</div>
-                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span>[cite: 9]</div>
-                <div><strong>Sabores:</strong> <span id="tckSabores">Uva, Mora</span>[cite: 9]</div>
-                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span>[cite: 9]</div>
+                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span></div>
+                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span></div>
+                <div><strong>Sabores:</strong> <span id="tckSabores">Uva, Mora</span></div>
+                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span></div>
                 <div style="margin-top:6px; border-top:1px dashed #cbd5e0; padding-top:4px; font-size:13px;">
-                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>[cite: 9]
+                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>
                 </div>
             </div>
 
-            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.[cite: 9]</p>
-            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar[cite: 9]</button>
+            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.</p>
+            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar</button>
         </div>
     </div>
 
@@ -676,7 +676,6 @@
         let toppingsSeleccionados = [];
         let contadorTurnoSecuencia = 1;
 
-        // ID único por dispositivo para aislar los turnos de este celular
         let dispositivoId = localStorage.getItem('minelly_device_id');
         if (!dispositivoId) {
             dispositivoId = 'dev_' + Math.random().toString(36).substring(2, 9);
@@ -750,18 +749,16 @@
                 toppings: toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno',
                 total: tamanoSeleccionado.precio,
                 creadoEn: Date.now(),
-                deviceId: dispositivoId // Guarda el ID de este celular específico
+                deviceId: dispositivoId
             };
 
             try {
                 await addDoc(collection(db, "pedidos"), nuevoPedido);
 
-                // Guardar también en localStorage del navegador para persistencia local inmediata
                 let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
                 misPedidosLocales.push(nuevoPedido);
                 localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
 
-                // LLENAR MODAL DE TICKET
                 document.getElementById('tckNumero').innerText = `#${numTurnoActual}`;
                 document.getElementById('tckNombre').innerText = nombre;
                 document.getElementById('tckTamano').innerText = tamanoSeleccionado.nombre;
@@ -772,7 +769,6 @@
                 document.getElementById('modalTicket').style.display = 'flex';
                 mostrarToast("✅ Pedido enviado correctamente");
 
-                // REINICIAR FORMULARIO
                 document.getElementById('nombreCliente').value = '';
                 saboresSeleccionados = [];
                 toppingsSeleccionados = [];
@@ -802,12 +798,10 @@
             let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
             const contenedor = document.getElementById('misTurnosContainer');
 
-            // Filtrar solo los que siguen activos en la base de datos general y pertenecen a este dispositivo
             let turnosActivos = misPedidosLocales.filter(local => 
                 pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
             );
 
-            // Actualizar localStorage con los que siguen vigentes
             localStorage.setItem('minelly_mis_turnos', JSON.stringify(turnosActivos));
 
             if (turnosActivos.length === 0) {
@@ -833,7 +827,6 @@
             }
         }
 
-        // ESCUCHAR EN TIEMPO REAL LA BASE DE DATOS
         onSnapshot(collection(db, "pedidos"), (snapshot) => {
             let pedidos = [];
             snapshot.forEach(docSnap => {
