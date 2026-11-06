@@ -18,7 +18,6 @@
     <style>
         :root {
             --gradient-header: linear-gradient(135deg, #00b4db, #0083b0, #9b51e0, #e91e63);
-            --gradient-hero: linear-gradient(135deg, #00c6ff, #0072ff, #92fe9d, #00c9ff);
             --bg-color: #f0f4f8;
             --card-bg: #ffffff;
             --primary: #00b894;
@@ -44,7 +43,6 @@
             padding-bottom: 40px;
         }
 
-        /* BANNER SUPERIOR */
         header {
             background: var(--gradient-header);
             background-size: 300% 300%;
@@ -101,7 +99,6 @@
             padding: 0 15px;
         }
 
-        /* HERO BANNER */
         .hero-banner {
             background: linear-gradient(135deg, #2575fc 0%, #6a11cb 50%, #ff007f 100%);
             color: white;
@@ -135,7 +132,6 @@
             max-width: 600px;
         }
 
-        /* LAYOUT PRINCIPAL (IZQ: OPCIONES | DER: RESUMEN) */
         .app-grid {
             display: grid;
             grid-template-columns: 1fr 340px;
@@ -155,7 +151,6 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: var(--shadow-sm);
-            transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid rgba(0,0,0,0.03);
         }
 
@@ -199,7 +194,6 @@
             font-weight: 600;
         }
 
-        /* 1. TAMAÑOS */
         .grid-tamanos {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -227,25 +221,10 @@
             box-shadow: 0 4px 12px rgba(0, 180, 219, 0.15);
         }
 
-        .tamano-icon {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
+        .tamano-icon { font-size: 28px; margin-bottom: 5px; }
+        .tamano-nombre { font-size: 14px; font-weight: 700; color: #2d3436; }
+        .tamano-precio { font-size: 15px; font-weight: 800; color: #00b894; margin-top: 2px; }
 
-        .tamano-nombre {
-            font-size: 14px;
-            font-weight: 700;
-            color: #2d3436;
-        }
-
-        .tamano-precio {
-            font-size: 15px;
-            font-weight: 800;
-            color: #00b894;
-            margin-top: 2px;
-        }
-
-        /* 2. SABORES Y CATEGORÍAS */
         .categoria-label {
             font-size: 12px;
             font-weight: 700;
@@ -280,9 +259,7 @@
             user-select: none;
         }
 
-        .sabor-btn:hover {
-            background: #eef2f5;
-        }
+        .sabor-btn:hover { background: #eef2f5; }
 
         .sabor-btn.selected {
             background: #fff5f5;
@@ -291,14 +268,8 @@
             box-shadow: 0 4px 10px rgba(255, 107, 107, 0.15);
         }
 
-        .sabor-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
+        .sabor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
-        /* 3. TOPPINGS */
         .topping-btn {
             display: flex;
             align-items: center;
@@ -322,7 +293,6 @@
             box-shadow: 0 4px 10px rgba(56, 178, 172, 0.15);
         }
 
-        /* RESUMEN DE ORDEN (PANEL DERECHO) */
         .resumen-card {
             background: white;
             border-radius: 20px;
@@ -354,9 +324,7 @@
             transition: border-color 0.2s;
         }
 
-        .form-input-cliente:focus {
-            border-color: #00b4db;
-        }
+        .form-input-cliente:focus { border-color: #00b4db; }
 
         .resumen-detalles {
             background: #fafbfc;
@@ -373,10 +341,6 @@
             margin-bottom: 4px;
         }
 
-        .resumen-item strong {
-            color: #2d3436;
-        }
-
         .resumen-total-box {
             display: flex;
             justify-content: space-between;
@@ -386,11 +350,7 @@
             border-top: 2px dashed #e2e8f0;
         }
 
-        .total-monto {
-            font-size: 26px;
-            font-weight: 800;
-            color: #00b894;
-        }
+        .total-monto { font-size: 26px; font-weight: 800; color: #00b894; }
 
         .btn-confirmar {
             background: linear-gradient(135deg, #00b894, #00bec4);
@@ -411,17 +371,10 @@
             gap: 8px;
         }
 
-        .btn-confirmar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(0, 184, 148, 0.45);
-        }
+        .btn-confirmar:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 184, 148, 0.45); }
 
-        .btn-confirmar:active {
-            transform: scale(0.98);
-        }
-
-        /* PANTALLA DE TURNOS EN VIVO EN LA PARTE INFERIOR */
-        .turnos-section {
+        /* SECCIÓN DE MIS TURNOS (EXCLUSIVA DE ESTE CELULAR) */
+        .mis-turnos-section {
             background: white;
             border-radius: 20px;
             padding: 20px;
@@ -429,62 +382,28 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .turnos-grid {
+        .mis-turnos-grid {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
             margin-top: 15px;
         }
 
-        @media (max-width: 700px) {
-            .turnos-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .turno-actual-box {
-            background: linear-gradient(135deg, #00b894, #00896f);
-            color: white;
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 6px 15px rgba(0, 184, 148, 0.25);
-        }
-
-        .turno-num-grande {
-            font-size: 46px;
-            font-weight: 800;
-            line-height: 1;
-            margin: 10px 0;
-            letter-spacing: -1px;
-        }
-
-        .cola-espera-box {
-            background: #fafbfc;
-            border-radius: 16px;
+        .mi-turno-card {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 14px;
             padding: 15px;
-            border: 2px dashed #edf2f7;
+            position: relative;
         }
 
-        .cola-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+        .mi-turno-num {
+            font-size: 28px;
+            font-weight: 800;
+            color: #234e52;
         }
 
-        .tag-turno {
-            background: white;
-            border: 1px solid #cbd5e0;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #4a5568;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        /* TICKET MODAL FLOTANTE */
+        /* MODAL DE RECIBO */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -495,12 +414,6 @@
             align-items: center;
             padding: 20px;
             z-index: 1000;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .ticket-card {
@@ -511,13 +424,6 @@
             width: 100%;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             text-align: center;
-            position: relative;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
 
         .ticket-badge-success {
@@ -562,7 +468,6 @@
             font-size: 14px;
         }
 
-        /* TOAST NOTIFICACIÓN */
         .toast-notif {
             position: fixed;
             bottom: 20px;
@@ -588,22 +493,20 @@
             <span class="logo-icon">🍧</span>
             <div>
                 <h1>Granizados MINELLY</h1>
-                <p>Sistema de Pedidos en Vivo</p>
+                <p>Arma tu Pedido en Vivo</p>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- Hero Banner -->
         <div class="hero-banner">
             <h2>Arma tu Granizado Especial 🍧</h2>
-            <p>Selecciona el tamaño, combina tus sabores favoritos y toppings premium. Tu pedido irá directamente a la pantalla de preparación.</p>
+            <p>Selecciona el tamaño, combina tus sabores favoritos y toppings. Tu pedido irá directo a caja.</p>
         </div>
 
         <div class="app-grid">
-            <!-- COLUMNA IZQUIERDA: CONFIGURADOR -->
+            <!-- IZQUIERDA: CONFIGURADOR -->
             <div>
-                <!-- PASO 1: TAMAÑO -->
                 <div class="card-step">
                     <div class="step-header">
                         <div class="step-title">
@@ -625,7 +528,6 @@
                     </div>
                 </div>
 
-                <!-- PASO 2: SABORES -->
                 <div class="card-step">
                     <div class="step-header">
                         <div class="step-title">
@@ -666,7 +568,6 @@
                     </div>
                 </div>
 
-                <!-- PASO 3: TOPPINGS -->
                 <div class="card-step">
                     <div class="step-header">
                         <div class="step-title">
@@ -676,13 +577,13 @@
                     </div>
                     <div class="grid-sabores">
                         <div class="topping-btn" onclick="toggleTopping(this, 'Leche Condensada')">🍼 Leche Condensada</div>
-                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Chocolate Amargo')">🍫 Jarabe de Chocolate Amargo</div>
+                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Chocolate Amargo')">🍫 Jarabe de Chocolate</div>
                         <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Fresa')">🍓 Jarabe de Fresa</div>
                     </div>
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: RESUMEN DE ORDEN -->
+            <!-- DERECHA: RESUMEN -->
             <div>
                 <div class="resumen-card">
                     <div class="resumen-title">🧾 Resumen de Orden</div>
@@ -717,60 +618,42 @@
             </div>
         </div>
 
-        <!-- PANTALLA DIGITAL DE TURNOS EN VIVO -->
-        <div class="turnos-section">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="font-size:16px; font-weight:800; color:#2d3436; display:flex; align-items:center; gap:8px;">
-                    📺 Pantalla de Turnos
-                </h3>
-                <span style="font-size:11px; color:#00b894; font-weight:700;">● Conectado en tiempo real</span>
-            </div>
-
-            <div class="turnos-grid">
-                <div class="turno-actual-box">
-                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; opacity:0.9;">Último Turno Llamado</div>
-                    <div class="turno-num-grande" id="dispUltimoTurno">#--</div>
-                    <div style="font-size:12px; opacity:0.9;" id="dispUltimoCliente">Esperando pedidos...</div>
-                </div>
-
-                <div class="cola-espera-box">
-                    <div style="font-size:12px; font-weight:700; color:#7f8c8d; text-transform:uppercase;">En Cola de Espera:</div>
-                    <div class="cola-tags" id="dispColaEsperando">
-                        <span style="font-size:12px; color:#a0aec0;">No hay turnos pendientes</span>
-                    </div>
-                </div>
+        <!-- SECCIÓN EXCLUSIVA DE MIS TURNOS (EN ESTE DISPOSITIVO) -->
+        <div class="mis-turnos-section">
+            <h3 style="font-size:16px; font-weight:800; color:#2d3436; display:flex; align-items:center; gap:8px;">
+                📱 Mis Turnos Activos (En este Celular)
+            </h3>
+            <div class="mis-turnos-grid" id="misTurnosContainer">
+                <p style="font-size:12px; color:#a0aec0;">No has solicitado ningún turno desde este dispositivo aún.</p>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE RECIBO DE TURNO -->
+    <!-- MODAL TICKET -->
     <div id="modalTicket" class="modal-overlay">
         <div class="ticket-card">
-            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉</span>
-            <div style="font-size:12px; color:#636e72;">Número de Orden</div>
-            <div class="ticket-turno-val" id="tckNumero">#1</div>
+            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉[cite: 9]</span>
+            <div style="font-size:12px; color:#636e72;">Número de Orden[cite: 9]</div>
+            <div class="ticket-turno-val" id="tckNumero">#1[cite: 9]</div>
             
             <div class="ticket-info-box">
-                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span></div>
-                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span></div>
-                <div><strong>Sabores:</strong> <span id="tckSabores">Limón, Maracuyá</span></div>
-                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span></div>
+                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span>[cite: 9]</div>
+                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span>[cite: 9]</div>
+                <div><strong>Sabores:</strong> <span id="tckSabores">Uva, Mora</span>[cite: 9]</div>
+                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span>[cite: 9]</div>
                 <div style="margin-top:6px; border-top:1px dashed #cbd5e0; padding-top:4px; font-size:13px;">
-                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>
+                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>[cite: 9]
                 </div>
             </div>
 
-            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.</p>
-            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar</button>
+            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.[cite: 9]</p>
+            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar[cite: 9]</button>
         </div>
     </div>
 
-    <!-- TOAST ALERT -->
-    <div id="toast" class="toast-notif">
-        <span id="toastMsg">Notificación</span>
-    </div>
+    <div id="toast" class="toast-notif"><span id="toastMsg">Notificación</span></div>
 
-    <!-- FIREBASE SERVICES -->
+    <!-- FIREBASE & LÓGICA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -788,27 +671,28 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ESTADO DE LA APLICACIÓN
         let tamanoSeleccionado = { nombre: 'Grande', precio: 1.00 };
         let saboresSeleccionados = [];
         let toppingsSeleccionados = [];
         let contadorTurnoSecuencia = 1;
 
-        // SELECCIONAR TAMAÑO
+        // ID único por dispositivo para aislar los turnos de este celular
+        let dispositivoId = localStorage.getItem('minelly_device_id');
+        if (!dispositivoId) {
+            dispositivoId = 'dev_' + Math.random().toString(36).substring(2, 9);
+            localStorage.setItem('minelly_device_id', dispositivoId);
+        }
+
         window.seleccionarTamano = function(element) {
             document.querySelectorAll('.tamano-option').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
-            
             tamanoSeleccionado.nombre = element.getAttribute('data-nombre');
             tamanoSeleccionado.precio = parseFloat(element.getAttribute('data-precio'));
-
             actualizarResumen();
         };
 
-        // TOGGLE SABORES (MÁXIMO 4)
         window.toggleSabor = function(element, saborNombre) {
             const index = saboresSeleccionados.indexOf(saborNombre);
-            
             if (index > -1) {
                 saboresSeleccionados.splice(index, 1);
                 element.classList.remove('selected');
@@ -820,12 +704,10 @@
                 saboresSeleccionados.push(saborNombre);
                 element.classList.add('selected');
             }
-
             document.getElementById('saboresCounter').innerText = `${saboresSeleccionados.length}/4 seleccionados`;
             actualizarResumen();
         };
 
-        // TOGGLE TOPPINGS
         window.toggleTopping = function(element, toppingNombre) {
             const index = toppingsSeleccionados.indexOf(toppingNombre);
             if (index > -1) {
@@ -845,16 +727,13 @@
             document.getElementById('txtTotal').innerText = tamanoSeleccionado.precio.toFixed(2);
         }
 
-        // ENVIAR PEDIDO A FIREBASE
         window.enviarPedido = async function() {
             const nombre = document.getElementById('nombreCliente').value.trim();
-
             if (!nombre) {
                 mostrarToast("⚠️ Por favor ingresa tu nombre");
                 document.getElementById('nombreCliente').focus();
                 return;
             }
-
             if (saboresSeleccionados.length === 0) {
                 mostrarToast("⚠️ Elige al menos 1 sabor para tu granizado");
                 return;
@@ -870,11 +749,17 @@
                 sabores: saboresSeleccionados.join(', '),
                 toppings: toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno',
                 total: tamanoSeleccionado.precio,
-                creadoEn: Date.now()
+                creadoEn: Date.now(),
+                deviceId: dispositivoId // Guarda el ID de este celular específico
             };
 
             try {
                 await addDoc(collection(db, "pedidos"), nuevoPedido);
+
+                // Guardar también en localStorage del navegador para persistencia local inmediata
+                let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
+                misPedidosLocales.push(nuevoPedido);
+                localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
 
                 // LLENAR MODAL DE TICKET
                 document.getElementById('tckNumero').innerText = `#${numTurnoActual}`;
@@ -894,6 +779,7 @@
                 document.querySelectorAll('.sabor-btn, .topping-btn').forEach(el => el.classList.remove('selected'));
                 document.getElementById('saboresCounter').innerText = "0/4 seleccionados";
                 actualizarResumen();
+                renderizarMisTurnos(misPedidosLocales);
 
             } catch (error) {
                 console.error("Error al enviar pedido:", error);
@@ -909,47 +795,58 @@
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
             toast.style.display = 'flex';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        // ESCUCHAR LISTA DE TURNOS EN TIEMPO REAL
+        function renderizarMisTurnos(pedidosGlobales) {
+            let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
+            const contenedor = document.getElementById('misTurnosContainer');
+
+            // Filtrar solo los que siguen activos en la base de datos general y pertenecen a este dispositivo
+            let turnosActivos = misPedidosLocales.filter(local => 
+                pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
+            );
+
+            // Actualizar localStorage con los que siguen vigentes
+            localStorage.setItem('minelly_mis_turnos', JSON.stringify(turnosActivos));
+
+            if (turnosActivos.length === 0) {
+                contenedor.innerHTML = '<p style="font-size:12px; color:#a0aec0;">No tienes turnos pendientes en este dispositivo.</p>';
+            } else {
+                contenedor.innerHTML = '';
+                turnosActivos.forEach(t => {
+                    const card = document.createElement('div');
+                    card.className = 'mi-turno-card';
+                    card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div class="mi-turno-num">#${t.numeroOrden}</div>
+                            <span style="font-size:11px; background:#38b2ac; color:white; padding:3px 8px; border-radius:10px; font-weight:700;">En Proceso</span>
+                        </div>
+                        <div style="font-size:12px; color:#2d3436; margin-top:8px;">
+                            <strong>${t.nombre}</strong> (${t.tamano})<br>
+                            ${t.sabores}<br>
+                            <span style="color:#00b894; font-weight:800;">$${t.total.toFixed(2)}</span>
+                        </div>
+                    `;
+                    contenedor.appendChild(card);
+                });
+            }
+        }
+
+        // ESCUCHAR EN TIEMPO REAL LA BASE DE DATOS
         onSnapshot(collection(db, "pedidos"), (snapshot) => {
             let pedidos = [];
             snapshot.forEach(docSnap => {
                 pedidos.push(docSnap.data());
             });
-            pedidos.sort((a, b) => a.creadoEn - b.creadoEn);
 
-            // Calcular siguiente número de turno de forma secuencial empezando en 1
             if (pedidos.length > 0) {
-                const maxTurnoActual = Math.max(...pedidos.map(p => p.numeroOrden || 0));
-                contadorTurnoSecuencia = maxTurnoActual + 1;
+                contadorTurnoSecuencia = Math.max(...pedidos.map(p => p.numeroOrden || 0)) + 1;
             } else {
                 contadorTurnoSecuencia = 1;
             }
 
-            // Actualizar cola en pantalla
-            const contenedorCola = document.getElementById('dispColaEsperando');
-            if (pedidos.length === 0) {
-                contenedorCola.innerHTML = '<span style="font-size:12px; color:#a0aec0;">No hay turnos pendientes</span>';
-                document.getElementById('dispUltimoTurno').innerText = '#--';
-                document.getElementById('dispUltimoCliente').innerText = 'Esperando pedidos...';
-            } else {
-                contenedorCola.innerHTML = '';
-                pedidos.forEach(p => {
-                    const tag = document.createElement('span');
-                    tag.className = 'tag-turno';
-                    tag.innerText = `#${p.numeroOrden} - ${p.nombre}`;
-                    contenedorCola.appendChild(tag);
-                });
-
-                // Mostrar el primer pedido de la cola como el actual en atención
-                const actual = pedidos[0];
-                document.getElementById('dispUltimoTurno').innerText = `#${actual.numeroOrden}`;
-                document.getElementById('dispUltimoCliente').innerText = `En preparación: ${actual.nombre}`;
-            }
+            renderizarMisTurnos(pedidos);
         });
     </script>
 </body>
