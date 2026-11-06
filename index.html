@@ -3,27 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Granizados MINELLY - Sistema de Pedidos</title>
+    <title>Granizados MINELLY - Gestión Completa</title>
     
-    <!-- Configuración PWA -->
-    <meta name="theme-color" content="#e91e63">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Minelly App">
-    <link rel="manifest" href='data:application/manifest+json,{"name":"Granizados MINELLY","short_name":"MinellyApp","start_url":".","display":"standalone","background_color":"#f4f7f6","theme_color":"#e91e63","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/938/938063.png","sizes":"512x512","type":"image/png"}]}'>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --gradient-header: linear-gradient(135deg, #00b4db, #0083b0, #9b51e0, #e91e63);
             --bg-color: #f0f4f8;
             --card-bg: #ffffff;
             --primary: #00b894;
             --primary-dark: #00896f;
             --secondary: #e91e63;
-            --accent: #ff9f43;
             --text-color: #2d3436;
             --shadow-sm: 0 4px 15px rgba(0,0,0,0.05);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
@@ -44,53 +35,13 @@
         }
 
         header {
-            background: var(--gradient-header);
-            background-size: 300% 300%;
-            animation: gradientBG 10s ease infinite;
+            background: linear-gradient(135deg, #2d3436, #00b894);
             color: white;
             padding: 15px 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            position: sticky;
-            top: 0;
-            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            font-size: 28px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-
-        header h1 {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        header p {
-            font-size: 11px;
-            opacity: 0.9;
         }
 
         .container {
@@ -99,564 +50,572 @@
             padding: 0 15px;
         }
 
-        .hero-banner {
-            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 50%, #ff007f 100%);
-            color: white;
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.3);
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-banner::after {
-            content: '🍧';
-            position: absolute;
-            right: -10px;
-            bottom: -20px;
-            font-size: 140px;
-            opacity: 0.2;
-            transform: rotate(-15deg);
-        }
-
-        .hero-banner h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .hero-banner p {
-            font-size: 13px;
-            opacity: 0.95;
-            max-width: 600px;
-        }
-
-        .app-grid {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 20px;
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .app-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card-step {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .step-header {
+        /* PANTALLA DE SELECCIÓN (INICIO) */
+        #selectorArea {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f7f9fa;
-            padding-bottom: 10px;
-        }
-
-        .step-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #2d3436;
-        }
-
-        .step-number {
-            background: linear-gradient(135deg, #ff7675, #d63031);
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
+            min-height: 80vh;
         }
 
-        .badge-counter {
-            font-size: 11px;
-            background: #dfe6e9;
-            color: #636e72;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        .grid-tamanos {
+        .selector-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 20px;
         }
 
-        .tamano-option {
-            border: 2px solid #edf2f7;
-            border-radius: 14px;
-            padding: 15px;
+        .area-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #fafbfc;
-        }
-
-        .tamano-option:hover {
-            transform: translateY(-2px);
-            border-color: #a0aec0;
-        }
-
-        .tamano-option.active {
-            border-color: #00b4db;
-            background: #e6f7ff;
-            box-shadow: 0 4px 12px rgba(0, 180, 219, 0.15);
-        }
-
-        .tamano-icon { font-size: 28px; margin-bottom: 5px; }
-        .tamano-nombre { font-size: 14px; font-weight: 700; color: #2d3436; }
-        .tamano-precio { font-size: 15px; font-weight: 800; color: #00b894; margin-top: 2px; }
-
-        .categoria-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 14px 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .grid-sabores {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-            gap: 10px;
-        }
-
-        .sabor-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            padding: 10px 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: #495057;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .sabor-btn:hover { background: #eef2f5; }
-
-        .sabor-btn.selected {
-            background: #fff5f5;
-            border-color: #ff6b6b;
-            color: #c0392b;
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.15);
-        }
-
-        .sabor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-
-        .topping-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            padding: 10px 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: #495057;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .topping-btn.selected {
-            background: #e6fffa;
-            border-color: #38b2ac;
-            color: #234e52;
-            box-shadow: 0 4px 10px rgba(56, 178, 172, 0.15);
-        }
-
-        .resumen-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
             box-shadow: var(--shadow-lg);
-            position: sticky;
-            top: 85px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .resumen-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #2d3436;
-        }
-
-        .form-input-cliente {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #edf2f7;
-            border-radius: 12px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-input-cliente:focus { border-color: #00b4db; }
-
-        .resumen-detalles {
-            background: #fafbfc;
-            border-radius: 14px;
-            padding: 12px;
-            font-size: 12px;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .resumen-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .resumen-total-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 2px dashed #e2e8f0;
-        }
-
-        .total-monto { font-size: 26px; font-weight: 800; color: #00b894; }
-
-        .btn-confirmar {
-            background: linear-gradient(135deg, #00b894, #00bec4);
-            color: white;
-            border: none;
-            padding: 16px;
-            width: 100%;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(0, 184, 148, 0.35);
-            transition: all 0.2s;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
         }
 
-        .btn-confirmar:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 184, 148, 0.45); }
-
-        /* SECCIÓN DE MIS TURNOS (EXCLUSIVA DE ESTE CELULAR) */
-        .mis-turnos-section {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 25px;
-            box-shadow: var(--shadow-sm);
+        .area-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
 
-        .mis-turnos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+        .area-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
 
-        .mi-turno-card {
-            background: #e6fffa;
-            border: 2px solid #38b2ac;
-            border-radius: 14px;
-            padding: 15px;
-            position: relative;
-        }
-
-        .mi-turno-num {
-            font-size: 28px;
-            font-weight: 800;
-            color: #234e52;
-        }
-
-        /* MODAL DE RECIBO */
+        /* MODALES DE CONTRASEÑA */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
             display: none;
             justify-content: center;
             align-items: center;
+            z-index: 2000;
             padding: 20px;
-            z-index: 1000;
         }
 
-        .ticket-card {
+        .login-card {
             background: white;
-            border-radius: 24px;
-            padding: 25px;
-            max-width: 380px;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 360px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
-        .ticket-badge-success {
-            background: #e6fffa;
-            color: #00b894;
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 4px;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        .login-input:focus { border-color: var(--primary); }
+
+        .btn-login {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* CONTENIDO DE LAS ÁREAS */
+        .area-content { display: none; }
+
+        .btn-volver {
+            background: #cbd5e0;
+            color: #2d3436;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
             font-size: 12px;
             font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 10px;
+            cursor: pointer;
+            margin-bottom: 20px;
         }
 
-        .ticket-turno-val {
-            font-size: 54px;
+        /* ESTILOS FORMULARIO PERSONAL (POS) */
+        .card-form {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 5px; color: #2d3436; }
+        .form-input { width: 100%; padding: 10px 14px; border: 2px solid #edf2f7; border-radius: 10px; font-size: 14px; outline: none; }
+        .form-input:focus { border-color: var(--primary); }
+
+        .categoria-label { font-size: 12px; font-weight: 700; color: #7f8c8d; text-transform: uppercase; margin: 10px 0 6px 0; }
+        
+        .grid-checks {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+        }
+
+        .check-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .check-item input { accent-color: var(--primary); }
+
+        .totales-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .t-box {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .btn-registrar {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+        }
+
+        /* PANELES EDITABLES DEL DUEÑO Y PERSONAL */
+        .admin-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .metric-card { background: white; padding: 18px; border-radius: 16px; box-shadow: var(--shadow-sm); border-left: 5px solid var(--primary); }
+        .metric-val { font-size: 22px; font-weight: 800; color: #1e293b; margin-top: 4px; }
+        .metric-lbl { font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+
+        .dueno-section-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .dueno-section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        /* RECUADROS MUCHO MÁS GRANDES Y CÓMODOS */
+        .grid-comandas-grandes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 25px;
+        }
+
+        .comanda-card-grande {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+            border-left: 10px solid #3b82f6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .comanda-card-grande:hover {
+            transform: translateY(-4px);
+            border-color: #cbd5e0;
+            border-left-color: #00b894;
+        }
+
+        .comanda-header-lg {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .comanda-turno-lg {
+            font-size: 28px;
             font-weight: 800;
             color: #e91e63;
-            letter-spacing: -1px;
-            margin: 5px 0 10px 0;
         }
 
-        .ticket-info-box {
-            background: #f8f9fa;
-            border-radius: 14px;
-            padding: 12px;
-            text-align: left;
-            font-size: 12px;
-            line-height: 1.6;
-            margin: 15px 0;
+        .comanda-nombre-lg {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comanda-detalles-lg {
+            font-size: 15px;
+            color: #334155;
+            line-height: 1.7;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
             border: 1px solid #edf2f7;
         }
 
-        .btn-cerrar-ticket {
-            background: #2d3436;
+        .comanda-acciones-lg {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .btn-listo-voz {
+            background: #10b981;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-listo-sin-voz {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-rechazar {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-reiniciar-dia {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
+        .editable-table {
             width: 100%;
-            font-size: 14px;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .editable-table th, .editable-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        .editable-table th { background: #f8fafc; color: #475569; }
+        
+        .btn-accion-tabla {
+            background: #3b82f6; color: white; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;
+        }
+        .btn-eliminar-tabla {
+            background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;
         }
 
         .toast-notif {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #2d3436;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 12px;
+            bottom: 20px; right: 20px;
+            background: #1e293b; color: white;
+            padding: 12px 20px; border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            gap: 10px;
-            z-index: 1100;
-            font-size: 13px;
-            font-weight: 600;
+            display: none; align-items: center; gap: 10px; z-index: 3000;
+            font-size: 13px; font-weight: 600;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <span class="logo-icon">🍧</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:26px;">🍧</span>
             <div>
                 <h1>Granizados MINELLY</h1>
-                <p>Arma tu Pedido en Vivo</p>
+                <p>Gestión Interna (Personal y Dueño)</p>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="hero-banner">
-            <h2>Arma tu Granizado Especial 🍧</h2>
-            <p>Selecciona el tamaño, combina tus sabores favoritos y toppings. Tu pedido irá directo a caja.</p>
-        </div>
 
-        <div class="app-grid">
-            <!-- IZQUIERDA: CONFIGURADOR -->
-            <div>
-                <div class="card-step">
-                    <div class="step-header">
-                        <div class="step-title">
-                            <span class="step-number">1</span>
-                            <span>Elige el Tamaño</span>
-                        </div>
-                    </div>
-                    <div class="grid-tamanos">
-                        <div class="tamano-option" data-precio="0.75" data-nombre="Pequeño" onclick="seleccionarTamano(this)">
-                            <div class="tamano-icon">🥤</div>
-                            <div class="tamano-nombre">Pequeño</div>
-                            <div class="tamano-precio">$0.75</div>
-                        </div>
-                        <div class="tamano-option active" data-precio="1.00" data-nombre="Grande" onclick="seleccionarTamano(this)">
-                            <div class="tamano-icon">🍧</div>
-                            <div class="tamano-nombre">Grande</div>
-                            <div class="tamano-precio">$1.00</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-step">
-                    <div class="step-header">
-                        <div class="step-title">
-                            <span class="step-number">2</span>
-                            <span>Elige Sabores</span>
-                        </div>
-                        <span class="badge-counter" id="saboresCounter">0/4 seleccionados</span>
-                    </div>
-
-                    <div class="categoria-label">🍋 Cítricos</div>
-                    <div class="grid-sabores">
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Limón')"><span class="sabor-dot" style="background:#2ecc71;"></span> Limón</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Maracuyá')"><span class="sabor-dot" style="background:#f1c40f;"></span> Maracuyá</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Tamarindo')"><span class="sabor-dot" style="background:#e67e22;"></span> Tamarindo</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Naranjilla')"><span class="sabor-dot" style="background:#27ae60;"></span> Naranjilla</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Piña')"><span class="sabor-dot" style="background:#f39c12;"></span> Piña</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Naranja')"><span class="sabor-dot" style="background:#d35400;"></span> Naranja</div>
-                    </div>
-
-                    <div class="categoria-label">🍓 Frutales</div>
-                    <div class="grid-sabores">
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Fresas')"><span class="sabor-dot" style="background:#e74c3c;"></span> Fresas</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Mora')"><span class="sabor-dot" style="background:#8e44ad;"></span> Mora</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Uva')"><span class="sabor-dot" style="background:#9b59b6;"></span> Uva</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Mango')"><span class="sabor-dot" style="background:#f39c12;"></span> Mango</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Guanábana')"><span class="sabor-dot" style="background:#2ecc71;"></span> Guanábana</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Café')"><span class="sabor-dot" style="background:#795548;"></span> Café</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Rompasa')"><span class="sabor-dot" style="background:#ff7675;"></span> Rompasa</div>
-                    </div>
-
-                    <div class="categoria-label">❤️ Tradicionales</div>
-                    <div class="grid-sabores">
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Crema de Leche')"><span class="sabor-dot" style="background:#ecf0f1;"></span> Crema de Leche</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Chocolate')"><span class="sabor-dot" style="background:#4e342e;"></span> Chocolate</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Rosa')"><span class="sabor-dot" style="background:#fd79a8;"></span> Rosa</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Menta')"><span class="sabor-dot" style="background:#00b894;"></span> Menta</div>
-                        <div class="sabor-btn" onclick="toggleSabor(this, 'Chicle')"><span class="sabor-dot" style="background:#e84393;"></span> Chicle</div>
-                    </div>
-                </div>
-
-                <div class="card-step">
-                    <div class="step-header">
-                        <div class="step-title">
-                            <span class="step-number">3</span>
-                            <span>Toppings (Incluidos)</span>
-                        </div>
-                    </div>
-                    <div class="grid-sabores">
-                        <div class="topping-btn" onclick="toggleTopping(this, 'Leche Condensada')">🍼 Leche Condensada</div>
-                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Chocolate Amargo')">🍫 Jarabe de Chocolate</div>
-                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Fresa')">🍓 Jarabe de Fresa</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DERECHA: RESUMEN -->
-            <div>
-                <div class="resumen-card">
-                    <div class="resumen-title">🧾 Resumen de Orden</div>
-                    
-                    <label style="font-size:11px; font-weight:700; color:#7f8c8d; text-transform:uppercase;">Nombre del Cliente:</label>
-                    <input type="text" id="nombreCliente" class="form-input-cliente" placeholder="Ej: Carlos" autocomplete="off">
-
-                    <div class="resumen-detalles">
-                        <div class="resumen-item">
-                            <span>Tamaño:</span>
-                            <strong id="lblTamano">Grande ($1.00)</strong>
-                        </div>
-                        <div class="resumen-item">
-                            <span>Sabores:</span>
-                            <strong id="lblSabores" style="text-align:right; max-width:180px;">Sin seleccionar</strong>
-                        </div>
-                        <div class="resumen-item" style="margin-top:4px;">
-                            <span>Toppings:</span>
-                            <strong id="lblToppings" style="text-align:right; max-width:180px;">Ninguno</strong>
-                        </div>
-                    </div>
-
-                    <div class="resumen-total-box">
-                        <span style="font-size:14px; font-weight:700; color:#2d3436;">Total a Pagar:</span>
-                        <div class="total-monto">$<span id="txtTotal">1.00</span></div>
-                    </div>
-
-                    <button class="btn-confirmar" onclick="enviarPedido()">
-                        <span>✓ Confirmar & Pedir Turno</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECCIÓN EXCLUSIVA DE MIS TURNOS (EN ESTE DISPOSITIVO) -->
-        <div class="mis-turnos-section">
-            <h3 style="font-size:16px; font-weight:800; color:#2d3436; display:flex; align-items:center; gap:8px;">
-                📱 Mis Turnos Activos (En este Celular)
-            </h3>
-            <div class="mis-turnos-grid" id="misTurnosContainer">
-                <p style="font-size:12px; color:#a0aec0;">No has solicitado ningún turno desde este dispositivo aún.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL TICKET -->
-    <div id="modalTicket" class="modal-overlay">
-        <div class="ticket-card">
-            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉</span>
-            <div style="font-size:12px; color:#636e72;">Número de Orden</div>
-            <div class="ticket-turno-val" id="tckNumero">#1</div>
+        <!-- PANTALLA PRINCIPAL: DOS CUADROS -->
+        <div id="selectorArea">
+            <h2 style="margin-bottom: 10px; font-weight: 800;">Selecciona tu Área de Acceso</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 25px;">Cada sección requiere su contraseña de seguridad.</p>
             
-            <div class="ticket-info-box">
-                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span></div>
-                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span></div>
-                <div><strong>Sabores:</strong> <span id="tckSabores">Uva, Mora</span></div>
-                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span></div>
-                <div style="margin-top:6px; border-top:1px dashed #cbd5e0; padding-top:4px; font-size:13px;">
-                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>
+            <div class="selector-grid">
+                <div class="area-card" onclick="abrirModalLogin('personal')">
+                    <div class="area-icon">🧑‍🍳</div>
+                    <h3 style="margin-bottom: 5px;">Área del Personal</h3>
+                    <p style="font-size: 12px; color: #64748b;">Registrar pedidos presenciales y ver turnos.</p>
+                </div>
+
+                <div class="area-card" onclick="abrirModalLogin('dueno')">
+                    <div class="area-icon">👑</div>
+                    <h3 style="margin-bottom: 5px;">Área del Dueño</h3>
+                    <p style="font-size: 12px; color: #64748b;">Control total: granizados, turnos e inventario.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE CLAVE -->
+        <div id="modalLogin" class="modal-overlay">
+            <div class="login-card">
+                <div style="font-size: 35px; margin-bottom: 10px;">🔐</div>
+                <h3 id="modalLoginTitulo">Ingrese Clave</h3>
+                <input type="password" id="txtPassword" class="login-input" placeholder="••••" maxlength="4">
+                <button class="btn-login" onclick="validarPassword()">Acceder</button>
+                <p id="errorMsg" style="color: #ef4444; font-size: 11px; margin-top: 10px; display: none;">Contraseña incorrecta (es 2316)</p>
+                <button onclick="cerrarModalLogin()" style="background:none; border:none; color:#64748b; font-size:12px; margin-top:15px; cursor:pointer;">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- AREA DEL PERSONAL (CONTENIDO) -->
+        <div id="areaPersonal" class="area-content">
+            <button class="btn-volver" onclick="volverSelector()">← Volver al selector</button>
+            <h2 style="margin-bottom: 15px;">🧑‍🍳 Registro de Pedidos y Cola en Vivo</h2>
+            
+            <div class="card-form">
+                <form id="posForm">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Cliente:</label>
+                        <input type="text" id="posNombre" class="form-input" placeholder="Ej: Carlos" required autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tamaño del Vaso:</label>
+                        <select id="posTamano" class="form-input" onchange="calcularPosTotal()">
+                            <option value="0.75" data-nombre="Pequeño">Pequeño - $0.75</option>
+                            <option value="1.00" data-nombre="Grande" selected>Grande - $1.00</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Sabores (Elegir hasta 4):</label>
+                        
+                        <div class="categoria-label">🍋 Cítricos</div>
+                        <div class="grid-checks">
+                            <label class="check-item"><input type="checkbox" value="Limón" class="pos-sabor"> Limón</label>
+                            <label class="check-item"><input type="checkbox" value="Maracuyá" class="pos-sabor"> Maracuyá</label>
+                            <label class="check-item"><input type="checkbox" value="Tamarindo" class="pos-sabor"> Tamarindo</label>
+                            <label class="check-item"><input type="checkbox" value="Naranjilla" class="pos-sabor"> Naranjilla</label>
+                            <label class="check-item"><input type="checkbox" value="Piña" class="pos-sabor"> Piña</label>
+                            <label class="check-item"><input type="checkbox" value="Naranja" class="pos-sabor"> Naranja</label>
+                        </div>
+
+                        <div class="categoria-label">🍓 Frutales</div>
+                        <div class="grid-checks">
+                            <label class="check-item"><input type="checkbox" value="Fresas" class="pos-sabor"> Fresas</label>
+                            <label class="check-item"><input type="checkbox" value="Mora" class="pos-sabor"> Mora</label>
+                            <label class="check-item"><input type="checkbox" value="Uva" class="pos-sabor"> Uva</label>
+                            <label class="check-item"><input type="checkbox" value="Mango" class="pos-sabor"> Mango</label>
+                            <label class="check-item"><input type="checkbox" value="Guanábana" class="pos-sabor"> Guanábana</label>
+                            <label class="check-item"><input type="checkbox" value="Café" class="pos-sabor"> Café</label>
+                            <label class="check-item"><input type="checkbox" value="Rompasa" class="pos-sabor"> Rompasa</label>
+                        </div>
+
+                        <div class="categoria-label">❤️ Tradicionales</div>
+                        <div class="grid-checks">
+                            <label class="check-item"><input type="checkbox" value="Crema de Leche" class="pos-sabor"> Crema de Leche</label>
+                            <label class="check-item"><input type="checkbox" value="Chocolate" class="pos-sabor"> Chocolate</label>
+                            <label class="check-item"><input type="checkbox" value="Rosa" class="pos-sabor"> Rosa</label>
+                            <label class="check-item"><input type="checkbox" value="Menta" class="pos-sabor"> Menta</label>
+                            <label class="check-item"><input type="checkbox" value="Chicle" class="pos-sabor"> Chicle</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Toppings (Incluidos):</label>
+                        <div class="grid-checks">
+                            <label class="check-item"><input type="checkbox" value="Leche Condensada" class="pos-topping"> Leche Condensada</label>
+                            <label class="check-item"><input type="checkbox" value="Jarabe de Chocolate Amargo" class="pos-topping"> Jarabe de Chocolate</label>
+                            <label class="check-item"><input type="checkbox" value="Jarabe de Fresa" class="pos-topping"> Jarabe de Fresa</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Paga con ($):</label>
+                        <input type="number" id="posPago" class="form-input" step="0.01" placeholder="Ej: 5.00" oninput="calcularPosVuelto()">
+                    </div>
+
+                    <div class="totales-box">
+                        <div class="t-box" style="color: #00b894;">Total: $<span id="posTotalLbl">1.00</span></div>
+                        <div class="t-box" style="color: #3b82f6;">Vuelto: $<span id="posVueltoLbl">0.00</span></div>
+                    </div>
+
+                    <button type="submit" class="btn-registrar">🛒 Registrar Pedido en Cola</button>
+                </form>
+            </div>
+
+            <h3 style="margin: 25px 0 15px 0; font-weight: 800;">📋 Turnos Pendientes</h3>
+            <div id="listaPosPedidos" class="grid-comandas-grandes">
+                <p style="font-size: 12px; color: #a0aec0;">Cargando pedidos...</p>
+            </div>
+        </div>
+
+        <!-- AREA DEL DUEÑO -->
+        <div id="areaDueno" class="area-content">
+            <button class="btn-volver" onclick="volverSelector()">← Volver al selector</button>
+            <h2 style="margin-bottom: 15px;">👑 Panel de Control Total</h2>
+            
+            <div class="dueno-section-box">
+                <div class="dueno-section-title">
+                    <span>📊 1. Panel Principal & Resumen de Ventas</span>
+                    <button class="btn-reiniciar-dia" onclick="reiniciarGananciasDia()">🔄 Reiniciar Ganancias</button>
+                </div>
+                <div class="admin-metrics" style="margin-bottom:0;">
+                    <div class="metric-card">
+                        <div class="metric-lbl">Pedidos Activos en Cola</div>
+                        <div class="metric-val" id="metPedidosDia">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-lbl">Ganancias Totales Acumuladas</div>
+                        <div class="metric-val" id="metGanancias">$0.00</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-lbl">Producto Estrella</div>
+                        <div class="metric-val" style="font-size: 15px; margin-top: 6px;" id="metTopProducto">Granizado Grande</div>
+                    </div>
                 </div>
             </div>
 
-            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.</p>
-            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar</button>
+            <div class="dueno-section-box">
+                <div class="dueno-section-title">🍧 2. Gestionar Granizados</div>
+                <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                    <input type="text" id="nuevoSaborInput" class="form-input" placeholder="Nombre del nuevo sabor..." style="max-width:250px;">
+                    <button class="btn-accion-tabla" onclick="agregarSaborCustom()" style="padding: 8px 14px;">+ Agregar Sabor</button>
+                </div>
+                <div id="listaSaboresGestion" style="max-height: 180px; overflow-y: auto;"></div>
+            </div>
+
+            <div class="dueno-section-box">
+                <div class="dueno-section-title">📦 3. Gestionar Pedidos</div>
+                <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;">Visualiza con claridad los nombres, sabores y toppings de cada pedido en curso.</p>
+                <div id="listaAdminComandas" class="grid-comandas-grandes">
+                    <p style="font-size: 12px; color: #a0aec0;">No hay comandas activas</p>
+                </div>
+            </div>
+
+            <div class="dueno-section-box">
+                <div class="dueno-section-title">📦 4. Control de Inventario</div>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                    <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
+                        <strong>🥛 Vasos Grandes/Pequeños</strong>
+                        <input type="number" id="invVasos" class="form-input" value="150" style="margin-top:6px;" onchange="actualizarInventarioLocal()">
+                    </div>
+                    <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
+                        <strong>🧊 Bolsas de Hielo</strong>
+                        <input type="number" id="invHielo" class="form-input" value="25" style="margin-top:6px;" onchange="actualizarInventarioLocal()">
+                    </div>
+                    <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
+                        <strong>🍓 Jarabes & Frutas (L)</strong>
+                        <input type="number" id="invJarabes" class="form-input" value="12" style="margin-top:6px;" onchange="actualizarInventarioLocal()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="dueno-section-box">
+                <div class="dueno-section-title">📈 5. Reportes & Estadísticas</div>
+                <div style="font-size: 13px; color: #475569; display: flex; flex-direction: column; gap: 6px;">
+                    <div>• <strong>Ganancias Totales Acumuladas:</strong> <span id="repVentasDia" style="color:#00b894; font-weight:800;">$0.00</span></div>
+                    <div>• <strong>Total Órdenes Procesadas:</strong> <span id="repTotalPedidos" style="font-weight:700;">0</span> órdenes</div>
+                    <div>• <strong>Rendimiento de Inventario:</strong> Óptimo</div>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
     <div id="toast" class="toast-notif"><span id="toastMsg">Notificación</span></div>
 
-    <!-- FIREBASE & LÓGICA -->
+    <!-- SCRIPT DE FIREBASE Y LOGICA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCPFKZ5l1QQs1Fot_i3N8niyzVj1jnahCU",
@@ -671,127 +630,232 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let tamanoSeleccionado = { nombre: 'Grande', precio: 1.00 };
-        let saboresSeleccionados = [];
-        let toppingsSeleccionados = [];
-        let contadorTurnoSecuencia = 1;
+        let areaActualDestino = '';
+        let siguienteTurnoSecuencia = 1;
 
-        // Desbloquear audio del navegador al primer toque o clic del cliente
-        document.addEventListener('click', () => {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-        }, { once: true });
+        let gananciasAcumuladasTotales = parseFloat(localStorage.getItem('minelly_ganancias_totales')) || 0;
+        let totalOrdenesAcumuladas = parseInt(localStorage.getItem('minelly_ordenes_totales')) || 0;
 
-        let dispositivoId = localStorage.getItem('minelly_device_id');
-        if (!dispositivoId) {
-            dispositivoId = 'dev_' + Math.random().toString(36).substring(2, 9);
-            localStorage.setItem('minelly_device_id', dispositivoId);
-        }
+        let saboresLista = [
+            { nombre: 'Limón', activo: true, cat: 'Cítricos' },
+            { nombre: 'Maracuyá', activo: true, cat: 'Cítricos' },
+            { nombre: 'Tamarindo', activo: true, cat: 'Cítricos' },
+            { nombre: 'Naranjilla', activo: true, cat: 'Cítricos' },
+            { nombre: 'Piña', activo: true, cat: 'Cítricos' },
+            { nombre: 'Naranja', activo: true, cat: 'Cítricos' },
+            { nombre: 'Fresas', activo: true, cat: 'Frutales' },
+            { nombre: 'Mora', activo: true, cat: 'Frutales' },
+            { nombre: 'Uva', activo: true, cat: 'Frutales' },
+            { nombre: 'Mango', activo: true, cat: 'Frutales' },
+            { nombre: 'Guanábana', activo: true, cat: 'Frutales' },
+            { nombre: 'Café', activo: true, cat: 'Frutales' },
+            { nombre: 'Rompasa', activo: true, cat: 'Frutales' },
+            { nombre: 'Crema de Leche', activo: true, cat: 'Tradicionales' },
+            { nombre: 'Chocolate', activo: true, cat: 'Tradicionales' },
+            { nombre: 'Rosa', activo: true, cat: 'Tradicionales' },
+            { nombre: 'Menta', activo: true, cat: 'Tradicionales' },
+            { nombre: 'Chicle', activo: true, cat: 'Tradicionales' }
+        ];
 
-        window.seleccionarTamano = function(element) {
-            document.querySelectorAll('.tamano-option').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            tamanoSeleccionado.nombre = element.getAttribute('data-nombre');
-            tamanoSeleccionado.precio = parseFloat(element.getAttribute('data-precio'));
-            actualizarResumen();
+        window.abrirModalLogin = function(area) {
+            areaActualDestino = area;
+            document.getElementById('modalLoginTitulo').innerText = area === 'personal' ? 'Clave de Personal' : 'Clave de Dueño';
+            document.getElementById('txtPassword').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('modalLogin').style.display = 'flex';
+            document.getElementById('txtPassword').focus();
         };
 
-        window.toggleSabor = function(element, saborNombre) {
-            const index = saboresSeleccionados.indexOf(saborNombre);
-            if (index > -1) {
-                saboresSeleccionados.splice(index, 1);
-                element.classList.remove('selected');
-            } else {
-                if (saboresSeleccionados.length >= 4) {
-                    mostrarToast("⚠️ Máximo 4 sabores por granizado");
-                    return;
+        window.cerrarModalLogin = function() {
+            document.getElementById('modalLogin').style.display = 'none';
+        };
+
+        window.validarPassword = function() {
+            const pass = document.getElementById('txtPassword').value;
+            if (pass === "2316") {
+                cerrarModalLogin();
+                document.getElementById('selectorArea').style.display = 'none';
+                if (areaActualDestino === 'personal') {
+                    document.getElementById('areaPersonal').style.display = 'block';
+                } else {
+                    document.getElementById('areaDueno').style.display = 'block';
+                    renderizarSaboresGestion();
                 }
-                saboresSeleccionados.push(saborNombre);
-                element.classList.add('selected');
-            }
-            document.getElementById('saboresCounter').innerText = `${saboresSeleccionados.length}/4 seleccionados`;
-            actualizarResumen();
-        };
-
-        window.toggleTopping = function(element, toppingNombre) {
-            const index = toppingsSeleccionados.indexOf(toppingNombre);
-            if (index > -1) {
-                toppingsSeleccionados.splice(index, 1);
-                element.classList.remove('selected');
             } else {
-                toppingsSeleccionados.push(toppingNombre);
-                element.classList.add('selected');
+                document.getElementById('errorMsg').style.display = 'block';
             }
-            actualizarResumen();
         };
 
-        function actualizarResumen() {
-            document.getElementById('lblTamano').innerText = `${tamanoSeleccionado.nombre} ($${tamanoSeleccionado.precio.toFixed(2)})`;
-            document.getElementById('lblSabores').innerText = saboresSeleccionados.length > 0 ? saboresSeleccionados.join(', ') : 'Sin seleccionar';
-            document.getElementById('lblToppings').innerText = toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno';
-            document.getElementById('txtTotal').innerText = tamanoSeleccionado.precio.toFixed(2);
+        window.volverSelector = function() {
+            document.getElementById('areaPersonal').style.display = 'none';
+            document.getElementById('areaDueno').style.display = 'none';
+            document.getElementById('selectorArea').style.display = 'flex';
+        };
+
+        window.reiniciarGananciasDia = function() {
+            if (confirm("¿Estás seguro de reiniciar las ganancias y el total de órdenes a $0.00 para iniciar un nuevo día?")) {
+                gananciasAcumuladasTotales = 0;
+                totalOrdenesAcumuladas = 0;
+                localStorage.setItem('minelly_ganancias_totales', 0);
+                localStorage.setItem('minelly_ordenes_totales', 0);
+
+                document.getElementById('metGanancias').innerText = "$0.00";
+                document.getElementById('repVentasDia').innerText = "$0.00";
+                document.getElementById('repTotalPedidos').innerText = "0";
+                mostrarToast("🔄 Ganancias y contadores reiniciados para el nuevo día");
+            }
+        };
+
+        function renderizarSaboresGestion() {
+            const contenedor = document.getElementById('listaSaboresGestion');
+            contenedor.innerHTML = '';
+            
+            const tabla = document.createElement('table');
+            tabla.className = 'editable-table';
+            tabla.innerHTML = `<tr><th>Sabor</th><th>Categoría</th><th>Estado</th><th>Acción</th></tr>`;
+            
+            saboresLista.forEach((s, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${s.nombre}</strong></td>
+                    <td>${s.cat}</td>
+                    <td><span style="color:${s.activo ? '#00b894' : '#ef4444'}; font-weight:700;">${s.activo ? 'Disponible' : 'Desactivado'}</span></td>
+                    <td>
+                        <button class="btn-accion-tabla" onclick="toggleEstadoSabor(${index})">${s.activo ? 'Desactivar' : 'Activar'}</button>
+                        <button class="btn-eliminar-tabla" onclick="eliminarSabor(${index})">Eliminar</button>
+                    </td>
+                `;
+                tabla.appendChild(tr);
+            });
+            contenedor.appendChild(tabla);
         }
 
-        window.enviarPedido = async function() {
-            const nombre = document.getElementById('nombreCliente').value.trim();
-            if (!nombre) {
-                mostrarToast("⚠️ Por favor ingresa tu nombre");
-                document.getElementById('nombreCliente').focus();
+        window.agregarSaborCustom = function() {
+            const input = document.getElementById('nuevoSaborInput');
+            const nombre = input.value.trim();
+            if(!nombre) {
+                mostrarToast("⚠️ Ingresa un nombre para el sabor");
                 return;
             }
-            if (saboresSeleccionados.length === 0) {
-                mostrarToast("⚠️ Elige al menos 1 sabor para tu granizado");
+            saboresLista.push({ nombre: nombre, activo: true, cat: 'Personalizado' });
+            input.value = '';
+            renderizarSaboresGestion();
+            mostrarToast(`✅ Sabor "${nombre}" agregado`);
+        };
+
+        window.toggleEstadoSabor = function(index) {
+            saboresLista[index].activo = !saboresLista[index].activo;
+            renderizarSaboresGestion();
+            mostrarToast("🔄 Estado actualizado");
+        };
+
+        window.eliminarSabor = function(index) {
+            saboresLista.splice(index, 1);
+            renderizarSaboresGestion();
+            mostrarToast(`🗑️ Sabor eliminado`);
+        };
+
+        window.actualizarInventarioLocal = function() {
+            mostrarToast("📦 Inventario actualizado en sistema");
+        };
+
+        window.calcularPosTotal = function() {
+            const select = document.getElementById('posTamano');
+            const precio = parseFloat(select.value);
+            document.getElementById('posTotalLbl').innerText = precio.toFixed(2);
+            calcularPosVuelto();
+        };
+
+        window.calcularPosVuelto = function() {
+            const precio = parseFloat(document.getElementById('posTamano').value);
+            const pago = parseFloat(document.getElementById('posPago').value) || 0;
+            const vuelto = pago - precio;
+            document.getElementById('posVueltoLbl').innerText = vuelto > 0 ? vuelto.toFixed(2) : "0.00";
+        };
+
+        document.getElementById('posForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('posNombre').value.trim();
+            const selectTamano = document.getElementById('posTamano');
+            const tamanoNombre = selectTamano.options[selectTamano.selectedIndex].getAttribute('data-nombre');
+            const precio = parseFloat(selectTamano.value);
+
+            const sabores = Array.from(document.querySelectorAll('.pos-sabor:checked')).map(s => s.value);
+            if (sabores.length === 0) {
+                mostrarToast("⚠️ Selecciona al menos un sabor");
+                return;
+            }
+            if (sabores.length > 4) {
+                mostrarToast("⚠️ Máximo 4 sabores permitidos");
                 return;
             }
 
-            const numTurnoActual = contadorTurnoSecuencia;
+            const toppings = Array.from(document.querySelectorAll('.pos-topping:checked')).map(t => t.value);
 
             const nuevoPedido = {
-                numeroOrden: numTurnoActual,
+                numeroOrden: siguienteTurnoSecuencia,
                 hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
                 nombre: nombre,
-                tamano: tamanoSeleccionado.nombre,
-                sabores: saboresSeleccionados.join(', '),
-                toppings: toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno',
-                total: tamanoSeleccionado.precio,
-                creadoEn: Date.now(),
-                deviceId: dispositivoId
+                tamano: tamanoNombre,
+                sabores: sabores.join(', '),
+                toppings: toppings.length > 0 ? toppings.join(', ') : 'Ninguno',
+                total: precio,
+                creadoEn: Date.now()
             };
 
             try {
                 await addDoc(collection(db, "pedidos"), nuevoPedido);
+                
+                gananciasAcumuladasTotales += precio;
+                totalOrdenesAcumuladas += 1;
+                localStorage.setItem('minelly_ganancias_totales', gananciasAcumuladasTotales);
+                localStorage.setItem('minelly_ordenes_totales', totalOrdenesAcumuladas);
 
-                let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
-                misPedidosLocales.push(nuevoPedido);
-                localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
-
-                document.getElementById('tckNumero').innerText = `#${numTurnoActual}`;
-                document.getElementById('tckNombre').innerText = nombre;
-                document.getElementById('tckTamano').innerText = tamanoSeleccionado.nombre;
-                document.getElementById('tckSabores').innerText = saboresSeleccionados.join(', ');
-                document.getElementById('tckToppings').innerText = toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno';
-                document.getElementById('tckTotal').innerText = `$${tamanoSeleccionado.precio.toFixed(2)}`;
-
-                document.getElementById('modalTicket').style.display = 'flex';
-                mostrarToast("✅ Pedido enviado correctamente");
-
-                document.getElementById('nombreCliente').value = '';
-                saboresSeleccionados = [];
-                toppingsSeleccionados = [];
-                document.querySelectorAll('.sabor-btn, .topping-btn').forEach(el => el.classList.remove('selected'));
-                document.getElementById('saboresCounter').innerText = "0/4 seleccionados";
-                actualizarResumen();
-                renderizarMisTurnos(pedidosGlobalesCache);
-
-            } catch (error) {
-                console.error("Error al enviar pedido:", error);
-                mostrarToast("❌ Error de conexión al guardar pedido");
+                mostrarToast(`✅ Pedido #${siguienteTurnoSecuencia} registrado`);
+                document.getElementById('posForm').reset();
+                document.getElementById('posPago').value = '';
+                calcularPosTotal();
+            } catch (err) {
+                console.error(err);
+                mostrarToast("❌ Error al registrar pedido");
             }
+        });
+
+        window.completarConVoz = async function(nombre, numOrden, idDoc, precioPedido) {
+            if ('speechSynthesis' in window) {
+                const texto = `¡Atención! Turno número ${numOrden}, cliente ${nombre}, su granizado está listo.`;
+                const utterance = new SpeechSynthesisUtterance(texto);
+                utterance.lang = 'es-ES';
+                window.speechSynthesis.speak(utterance);
+            }
+            try {
+                gananciasAcumuladasTotales += (precioPedido || 0);
+                totalOrdenesAcumuladas += 1;
+                localStorage.setItem('minelly_ganancias_totales', gananciasAcumuladasTotales);
+                localStorage.setItem('minelly_ordenes_totales', totalOrdenesAcumuladas);
+
+                await deleteDoc(doc(db, "pedidos", idDoc));
+                mostrarToast(`🔔 Turno #${numOrden} completado con voz`);
+            } catch (e) { console.error(e); }
         };
 
-        window.cerrarTicket = function() {
-            document.getElementById('modalTicket').style.display = 'none';
+        window.completarSinVoz = async function(idDoc, precioPedido, numOrden) {
+            try {
+                gananciasAcumuladasTotales += (precioPedido || 0);
+                totalOrdenesAcumuladas += 1;
+                localStorage.setItem('minelly_ganancias_totales', gananciasAcumuladasTotales);
+                localStorage.setItem('minelly_ordenes_totales', totalOrdenesAcumuladas);
+
+                await deleteDoc(doc(db, "pedidos", idDoc));
+                mostrarToast(`✅ Turno #${numOrden} completado (sin voz)`);
+            } catch (e) { console.error(e); }
+        };
+
+        window.rechazarPedido = async function(idDoc, numOrden) {
+            try {
+                await deleteDoc(doc(db, "pedidos", idDoc));
+                mostrarToast(`❌ Pedido #${numOrden} rechazado/eliminado`);
+            } catch (e) { console.error(e); }
         };
 
         function mostrarToast(msg) {
@@ -801,75 +865,89 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        let pedidosGlobalesCache = [];
-
-        function renderizarMisTurnos(pedidosGlobales) {
-            pedidosGlobalesCache = pedidosGlobales;
-            let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
-            const contenedor = document.getElementById('misTurnosContainer');
-
-            misPedidosLocales.forEach(local => {
-                let sigueEnCola = pedidosGlobales.some(g => g.numeroOrden === local.numeroOrden && g.deviceId === dispositivoId);
-                
-                if (!sigueEnCola && local.activo) {
-                    local.activo = false;
-
-                    // Reproducir alerta de voz garantizada en el celular del cliente
-                    if ('speechSynthesis' in window) {
-                        window.speechSynthesis.cancel(); // Detener cualquier eco anterior
-                        const textoVoz = `¡Atención ${local.nombre}! Tu granizado número ${local.numeroOrden} ya se encuentra listo para retirar en caja.`;
-                        const utterance = new SpeechSynthesisUtterance(textoVoz);
-                        utterance.lang = 'es-ES';
-                        utterance.rate = 1.0;
-                        window.speechSynthesis.speak(utterance);
-                    }
-                    mostrarToast(`🎉 ¡Tu pedido #${local.numeroOrden} está listo!`);
-                }
-            });
-
-            localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
-
-            let turnosActivos = misPedidosLocales.filter(local => 
-                pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
-            );
-
-            if (turnosActivos.length === 0) {
-                contenedor.innerHTML = '<p style="font-size:12px; color:#a0aec0;">No tienes turnos pendientes en este dispositivo.</p>';
-            } else {
-                contenedor.innerHTML = '';
-                turnosActivos.forEach(t => {
-                    if (t.activo === undefined) t.activo = true;
-                    const card = document.createElement('div');
-                    card.className = 'mi-turno-card';
-                    card.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="mi-turno-num">#${t.numeroOrden}</div>
-                            <span style="font-size:11px; background:#38b2ac; color:white; padding:3px 8px; border-radius:10px; font-weight:700;">En Proceso</span>
-                        </div>
-                        <div style="font-size:12px; color:#2d3436; margin-top:8px;">
-                            <strong>${t.nombre}</strong> (${t.tamano})<br>
-                            ${t.sabores}<br>
-                            <span style="color:#00b894; font-weight:800;">$${t.total.toFixed(2)}</span>
-                        </div>
-                    `;
-                    contenedor.appendChild(card);
-                });
-            }
-        }
-
         onSnapshot(collection(db, "pedidos"), (snapshot) => {
             let pedidos = [];
+
             snapshot.forEach(docSnap => {
-                pedidos.push(docSnap.data());
+                let d = docSnap.data();
+                pedidos.push({ id: docSnap.id, ...d });
             });
+            pedidos.sort((a, b) => a.creadoEn - b.creadoEn);
 
             if (pedidos.length > 0) {
-                contadorTurnoSecuencia = Math.max(...pedidos.map(p => p.numeroOrden || 0)) + 1;
+                siguienteTurnoSecuencia = Math.max(...pedidos.map(p => p.numeroOrden || 0)) + 1;
             } else {
-                contadorTurnoSecuencia = 1;
+                siguienteTurnoSecuencia = 1;
             }
 
-            renderizarMisTurnos(pedidos);
+            document.getElementById('metPedidosDia').innerText = pedidos.length;
+            document.getElementById('metGanancias').innerText = `$${gananciasAcumuladasTotales.toFixed(2)}`;
+            document.getElementById('repVentasDia').innerText = `$${gananciasAcumuladasTotales.toFixed(2)}`;
+            document.getElementById('repTotalPedidos').innerText = totalOrdenesAcumuladas;
+
+            // RENDER RECUADROS GRANDES EN ÁREA PERSONAL
+            const boxPos = document.getElementById('listaPosPedidos');
+            if (pedidos.length === 0) {
+                boxPos.innerHTML = '<p style="font-size: 12px; color: #a0aec0;">No hay pedidos pendientes</p>';
+            } else {
+                boxPos.innerHTML = '';
+                pedidos.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'comanda-card-grande';
+                    card.innerHTML = `
+                        <div>
+                            <div class="comanda-header-lg">
+                                <span class="comanda-turno-lg">Turno #${p.numeroOrden}</span>
+                                <span style="font-size: 15px; font-weight:800; color: #00b894;">$${p.total.toFixed(2)}</span>
+                            </div>
+                            <div class="comanda-nombre-lg">👤 ${p.nombre}</div>
+                            <div class="comanda-detalles-lg">
+                                <div style="margin-bottom: 4px;"><strong>Tamaño:</strong> ${p.tamano}</div>
+                                <div style="margin-bottom: 4px;"><strong>Sabores:</strong> <span style="color:#c0392b; font-weight:700;">${p.sabores}</span></div>
+                                <div><strong>Toppings:</strong> ${p.toppings}</div>
+                            </div>
+                        </div>
+                        <div class="comanda-acciones-lg">
+                            <button class="btn-listo-voz" onclick="completarConVoz('${p.nombre}', ${p.numeroOrden}, '${p.id}', ${p.total})">🔊 Con Voz</button>
+                            <button class="btn-listo-sin-voz" onclick="completarSinVoz('${p.id}', ${p.total}, ${p.numeroOrden})">✅ Entregar</button>
+                            <button class="btn-rechazar" onclick="rechazarPedido('${p.id}', ${p.numeroOrden})">Eliminar</button>
+                        </div>
+                    `;
+                    boxPos.appendChild(card);
+                });
+            }
+
+            // RENDER RECUADROS GRANDES EN ÁREA DUEÑO
+            const boxDueno = document.getElementById('listaAdminComandas');
+            if (pedidos.length === 0) {
+                boxDueno.innerHTML = '<p style="font-size: 12px; color: #a0aec0;">No hay comandas activas</p>';
+            } else {
+                boxDueno.innerHTML = '';
+                pedidos.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'comanda-card-grande';
+                    card.innerHTML = `
+                        <div>
+                            <div class="comanda-header-lg">
+                                <span class="comanda-turno-lg">Turno #${p.numeroOrden}</span>
+                                <span style="font-size: 15px; font-weight:800; color: #00b894;">$${p.total.toFixed(2)}</span>
+                            </div>
+                            <div class="comanda-nombre-lg">👤 ${p.nombre}</div>
+                            <div class="comanda-detalles-lg">
+                                <div style="margin-bottom: 4px;"><strong>Tamaño:</strong> ${p.tamano}</div>
+                                <div style="margin-bottom: 4px;"><strong>Sabores:</strong> <span style="color:#c0392b; font-weight:700;">${p.sabores}</span></div>
+                                <div><strong>Toppings:</strong> ${p.toppings}</div>
+                            </div>
+                        </div>
+                        <div class="comanda-acciones-lg">
+                            <button class="btn-listo-voz" onclick="completarConVoz('${p.nombre}', ${p.numeroOrden}, '${p.id}', ${p.total})">🔊 Con Voz</button>
+                            <button class="btn-listo-sin-voz" onclick="completarSinVoz('${p.id}', ${p.total}, ${p.numeroOrden})">🔇 Sin Voz</button>
+                            <button class="btn-rechazar" onclick="rechazarPedido('${p.id}', ${p.numeroOrden})">Rechazar</button>
+                        </div>
+                    `;
+                    boxDueno.appendChild(card);
+                });
+            }
         });
     </script>
 </body>
