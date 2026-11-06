@@ -676,6 +676,13 @@
         let toppingsSeleccionados = [];
         let contadorTurnoSecuencia = 1;
 
+        // Desbloquear audio del navegador al primer toque o clic del cliente
+        document.addEventListener('click', () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }, { once: true });
+
         let dispositivoId = localStorage.getItem('minelly_device_id');
         if (!dispositivoId) {
             dispositivoId = 'dev_' + Math.random().toString(36).substring(2, 9);
@@ -801,29 +808,27 @@
             let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
             const contenedor = document.getElementById('misTurnosContainer');
 
-            // Revisar cada pedido local para ver si ya fue despachado/eliminado de la base global
             misPedidosLocales.forEach(local => {
                 let sigueEnCola = pedidosGlobales.some(g => g.numeroOrden === local.numeroOrden && g.deviceId === dispositivoId);
                 
-                // Si el pedido ya no está en la cola global y estaba marcado como activo localmente
                 if (!sigueEnCola && local.activo) {
-                    local.activo = false; // Marcar como procesado para que no suene repetido
+                    local.activo = false;
 
-                    // Reproducir alerta de voz en el celular del cliente siempre que se despache
+                    // Reproducir alerta de voz garantizada en el celular del cliente
                     if ('speechSynthesis' in window) {
+                        window.speechSynthesis.cancel(); // Detener cualquier eco anterior
                         const textoVoz = `¡Atención ${local.nombre}! Tu granizado número ${local.numeroOrden} ya se encuentra listo para retirar en caja.`;
                         const utterance = new SpeechSynthesisUtterance(textoVoz);
                         utterance.lang = 'es-ES';
+                        utterance.rate = 1.0;
                         window.speechSynthesis.speak(utterance);
                     }
                     mostrarToast(`🎉 ¡Tu pedido #${local.numeroOrden} está listo!`);
                 }
             });
 
-            // Guardar estado actualizado en localStorage
             localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
 
-            // Filtrar solo los turnos que siguen activos en la base global para mostrarlos en pantalla
             let turnosActivos = misPedidosLocales.filter(local => 
                 pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
             );
