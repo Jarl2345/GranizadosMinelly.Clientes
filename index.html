@@ -775,7 +775,7 @@
                 document.querySelectorAll('.sabor-btn, .topping-btn').forEach(el => el.classList.remove('selected'));
                 document.getElementById('saboresCounter').innerText = "0/4 seleccionados";
                 actualizarResumen();
-                renderizarMisTurnos(misPedidosLocales);
+                renderizarMisTurnos(pedidosGlobalesCache);
 
             } catch (error) {
                 console.error("Error al enviar pedido:", error);
@@ -794,40 +794,46 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
+        let pedidosGlobalesCache = [];
+
         function renderizarMisTurnos(pedidosGlobales) {
+            pedidosGlobalesCache = pedidosGlobales;
             let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
             const contenedor = document.getElementById('misTurnosContainer');
 
-            // Filtrar solo los turnos que pertenecen a este dispositivo
-            let turnosActivos = misPedidosLocales.filter(local => 
-                pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
-            );
-
-            // Detectar si alguno de nuestros pedidos locales acabados de entregar ya desapareció de la base de datos global
+            // Revisar cada pedido local para ver si ya fue despachado/eliminado de la base global
             misPedidosLocales.forEach(local => {
                 let sigueEnCola = pedidosGlobales.some(g => g.numeroOrden === local.numeroOrden && g.deviceId === dispositivoId);
-                let yaNotificado = localStorage.getItem('notif_' + local.numeroOrden);
+                
+                // Si el pedido ya no está en la cola global y estaba marcado como activo localmente
+                if (!sigueEnCola && local.activo) {
+                    local.activo = false; // Marcar como procesado para que no suene repetido
 
-                if (!sigueEnCola && !yaNotificado && local.deviceId === dispositivoId) {
-                    // ¡El pedido ya fue entregado/eliminado desde caja! Reproducir voz de listo en el celular del cliente
+                    // Reproducir alerta de voz en el celular del cliente siempre que se despache
                     if ('speechSynthesis' in window) {
                         const textoVoz = `¡Atención ${local.nombre}! Tu granizado número ${local.numeroOrden} ya se encuentra listo para retirar en caja.`;
                         const utterance = new SpeechSynthesisUtterance(textoVoz);
                         utterance.lang = 'es-ES';
                         window.speechSynthesis.speak(utterance);
                     }
-                    localStorage.setItem('notif_' + local.numeroOrden, 'true');
                     mostrarToast(`🎉 ¡Tu pedido #${local.numeroOrden} está listo!`);
                 }
             });
 
-            localStorage.setItem('minelly_mis_turnos', JSON.stringify(turnosActivos));
+            // Guardar estado actualizado en localStorage
+            localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
+
+            // Filtrar solo los turnos que siguen activos en la base global para mostrarlos en pantalla
+            let turnosActivos = misPedidosLocales.filter(local => 
+                pedidosGlobales.some(global => global.numeroOrden === local.numeroOrden && global.deviceId === dispositivoId)
+            );
 
             if (turnosActivos.length === 0) {
                 contenedor.innerHTML = '<p style="font-size:12px; color:#a0aec0;">No tienes turnos pendientes en este dispositivo.</p>';
             } else {
                 contenedor.innerHTML = '';
                 turnosActivos.forEach(t => {
+                    if (t.activo === undefined) t.activo = true;
                     const card = document.createElement('div');
                     card.className = 'mi-turno-card';
                     card.innerHTML = `
