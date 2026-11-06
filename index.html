@@ -757,7 +757,6 @@
                 const pedidoIdUnico = docRef.id;
 
                 let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
-                // Evitar duplicados locales guardando por id único de Firebase
                 if (!misPedidosLocales.some(p => p.id === pedidoIdUnico)) {
                     misPedidosLocales.push({ id: pedidoIdUnico, ...nuevoPedido, activo: true });
                     localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
@@ -780,6 +779,9 @@
                 document.getElementById('saboresCounter').innerText = "0/4 seleccionados";
                 actualizarResumen();
 
+                // Forzar refresco visual inmediato de mis turnos
+                renderizarMisTurnos([{ id: pedidoIdUnico, ...nuevoPedido }]);
+
             } catch (error) {
                 console.error("Error al enviar pedido:", error);
                 mostrarToast("❌ Error de conexión al guardar pedido");
@@ -801,7 +803,7 @@
             let misPedidosLocales = JSON.parse(localStorage.getItem('minelly_mis_turnos') || '[]');
             const contenedor = document.getElementById('misTurnosContainer');
 
-            // Sincronizar mis pedidos locales con los IDs reales de Firebase
+            // Detectar si algún pedido local que estaba activo ya no existe en la base global (fue entregado)
             misPedidosLocales.forEach(local => {
                 if (local.deviceId === dispositivoId && local.activo) {
                     let sigueEnCola = pedidosGlobales.some(g => g.id === local.id);
@@ -824,9 +826,10 @@
 
             localStorage.setItem('minelly_mis_turnos', JSON.stringify(misPedidosLocales));
 
-            // Filtrar estrictamente solo los que pertenecen a este dispositivo y siguen en la base de datos global
+            // Filtrar turnos activos que pertenecen a este dispositivo y siguen en la base de datos global
             let turnosActivos = misPedidosLocales.filter(local => 
                 local.deviceId === dispositivoId && 
+                local.activo &&
                 pedidosGlobales.some(global => global.id === local.id)
             );
 
@@ -859,7 +862,6 @@
                 pedidos.push({ id: docSnap.id, ...docSnap.data() });
             });
 
-            // Ordenar por fecha de creación para mantener la secuencia exacta
             pedidos.sort((a, b) => (a.creadoEn || 0) - (b.creadoEn || 0));
 
             if (pedidos.length > 0) {
