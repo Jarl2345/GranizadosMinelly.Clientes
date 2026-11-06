@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Granizados MINELLY - Sistema de Pedidos</title>
+    
+    <!-- Configuración PWA -->
+    <meta name="theme-color" content="#e91e63">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Minelly App">
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Granizados MINELLY","short_name":"MinellyApp","start_url":".","display":"standalone","background_color":"#f4f7f6","theme_color":"#e91e63","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/938/938063.png","sizes":"512x512","type":"image/png"}]}'>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gradient-header: linear-gradient(135deg, #00b4db, #0083b0, #9b51e0, #e91e63);
+            --gradient-hero: linear-gradient(135deg, #00c6ff, #0072ff, #92fe9d, #00c9ff);
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --primary: #00b894;
+            --primary-dark: #00896f;
+            --secondary: #e91e63;
+            --accent: #ff9f43;
+            --text-color: #2d3436;
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 40px;
+        }
+
+        /* BANNER SUPERIOR */
+        header {
+            background: var(--gradient-header);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* HERO BANNER */
+        .hero-banner {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 50%, #ff007f 100%);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.3);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::after {
+            content: '🍧';
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-size: 140px;
+            opacity: 0.2;
+            transform: rotate(-15deg);
+        }
+
+        .hero-banner h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .hero-banner p {
+            font-size: 13px;
+            opacity: 0.95;
+            max-width: 600px;
+        }
+
+        /* LAYOUT PRINCIPAL (IZQ: OPCIONES | DER: RESUMEN) */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-step {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f7f9fa;
+            padding-bottom: 10px;
+        }
+
+        .step-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .badge-counter {
+            font-size: 11px;
+            background: #dfe6e9;
+            color: #636e72;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* 1. TAMAÑOS */
+        .grid-tamanos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .tamano-option {
+            border: 2px solid #edf2f7;
+            border-radius: 14px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafbfc;
+        }
+
+        .tamano-option:hover {
+            transform: translateY(-2px);
+            border-color: #a0aec0;
+        }
+
+        .tamano-option.active {
+            border-color: #00b4db;
+            background: #e6f7ff;
+            box-shadow: 0 4px 12px rgba(0, 180, 219, 0.15);
+        }
+
+        .tamano-icon {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .tamano-nombre {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .tamano-precio {
+            font-size: 15px;
+            font-weight: 800;
+            color: #00b894;
+            margin-top: 2px;
+        }
+
+        /* 2. SABORES Y CATEGORÍAS */
+        .categoria-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 14px 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .grid-sabores {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+            gap: 10px;
+        }
+
+        .sabor-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .sabor-btn:hover {
+            background: #eef2f5;
+        }
+
+        .sabor-btn.selected {
+            background: #fff5f5;
+            border-color: #ff6b6b;
+            color: #c0392b;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.15);
+        }
+
+        .sabor-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* 3. TOPPINGS */
+        .topping-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .topping-btn.selected {
+            background: #e6fffa;
+            border-color: #38b2ac;
+            color: #234e52;
+            box-shadow: 0 4px 10px rgba(56, 178, 172, 0.15);
+        }
+
+        /* RESUMEN DE ORDEN (PANEL DERECHO) */
+        .resumen-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 85px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .resumen-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2d3436;
+        }
+
+        .form-input-cliente {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input-cliente:focus {
+            border-color: #00b4db;
+        }
+
+        .resumen-detalles {
+            background: #fafbfc;
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .resumen-item strong {
+            color: #2d3436;
+        }
+
+        .resumen-total-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .total-monto {
+            font-size: 26px;
+            font-weight: 800;
+            color: #00b894;
+        }
+
+        .btn-confirmar {
+            background: linear-gradient(135deg, #00b894, #00bec4);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 184, 148, 0.35);
+            transition: all 0.2s;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-confirmar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 184, 148, 0.45);
+        }
+
+        .btn-confirmar:active {
+            transform: scale(0.98);
+        }
+
+        /* PANTALLA DE TURNOS EN VIVO EN LA PARTE INFERIOR */
+        .turnos-section {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 25px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .turnos-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .turnos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .turno-actual-box {
+            background: linear-gradient(135deg, #00b894, #00896f);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 184, 148, 0.25);
+        }
+
+        .turno-num-grande {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1;
+            margin: 10px 0;
+            letter-spacing: -1px;
+        }
+
+        .cola-espera-box {
+            background: #fafbfc;
+            border-radius: 16px;
+            padding: 15px;
+            border: 2px dashed #edf2f7;
+        }
+
+        .cola-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag-turno {
+            background: white;
+            border: 1px solid #cbd5e0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #4a5568;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* TICKET MODAL FLOTANTE */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .ticket-card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .ticket-badge-success {
+            background: #e6fffa;
+            color: #00b894;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .ticket-turno-val {
+            font-size: 54px;
+            font-weight: 800;
+            color: #e91e63;
+            letter-spacing: -1px;
+            margin: 5px 0 10px 0;
+        }
+
+        .ticket-info-box {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 15px 0;
+            border: 1px solid #edf2f7;
+        }
+
+        .btn-cerrar-ticket {
+            background: #2d3436;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        /* TOAST NOTIFICACIÓN */
+        .toast-notif {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2d3436;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1100;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">🍧</span>
+            <div>
+                <h1>Granizados MINELLY</h1>
+                <p>Sistema de Pedidos en Vivo</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <h2>Arma tu Granizado Especial 🍧</h2>
+            <p>Selecciona el tamaño, combina tus sabores favoritos y toppings premium. Tu pedido irá directamente a la pantalla de preparación.</p>
+        </div>
+
+        <div class="app-grid">
+            <!-- COLUMNA IZQUIERDA: CONFIGURADOR -->
+            <div>
+                <!-- PASO 1: TAMAÑO -->
+                <div class="card-step">
+                    <div class="step-header">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            <span>Elige el Tamaño</span>
+                        </div>
+                    </div>
+                    <div class="grid-tamanos">
+                        <div class="tamano-option" data-precio="0.75" data-nombre="Pequeño" onclick="seleccionarTamano(this)">
+                            <div class="tamano-icon">🥤</div>
+                            <div class="tamano-nombre">Pequeño</div>
+                            <div class="tamano-precio">$0.75</div>
+                        </div>
+                        <div class="tamano-option active" data-precio="1.00" data-nombre="Grande" onclick="seleccionarTamano(this)">
+                            <div class="tamano-icon">🍧</div>
+                            <div class="tamano-nombre">Grande</div>
+                            <div class="tamano-precio">$1.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 2: SABORES -->
+                <div class="card-step">
+                    <div class="step-header">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            <span>Elige Sabores</span>
+                        </div>
+                        <span class="badge-counter" id="saboresCounter">0/4 seleccionados</span>
+                    </div>
+
+                    <div class="categoria-label">🍋 Cítricos</div>
+                    <div class="grid-sabores">
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Limón')"><span class="sabor-dot" style="background:#2ecc71;"></span> Limón</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Maracuyá')"><span class="sabor-dot" style="background:#f1c40f;"></span> Maracuyá</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Tamarindo')"><span class="sabor-dot" style="background:#e67e22;"></span> Tamarindo</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Naranjilla')"><span class="sabor-dot" style="background:#27ae60;"></span> Naranjilla</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Piña')"><span class="sabor-dot" style="background:#f39c12;"></span> Piña</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Naranja')"><span class="sabor-dot" style="background:#d35400;"></span> Naranja</div>
+                    </div>
+
+                    <div class="categoria-label">🍓 Frutales</div>
+                    <div class="grid-sabores">
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Fresas')"><span class="sabor-dot" style="background:#e74c3c;"></span> Fresas</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Mora')"><span class="sabor-dot" style="background:#8e44ad;"></span> Mora</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Uva')"><span class="sabor-dot" style="background:#9b59b6;"></span> Uva</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Mango')"><span class="sabor-dot" style="background:#f39c12;"></span> Mango</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Guanábana')"><span class="sabor-dot" style="background:#2ecc71;"></span> Guanábana</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Café')"><span class="sabor-dot" style="background:#795548;"></span> Café</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Rompasa')"><span class="sabor-dot" style="background:#ff7675;"></span> Rompasa</div>
+                    </div>
+
+                    <div class="categoria-label">❤️ Tradicionales</div>
+                    <div class="grid-sabores">
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Crema de Leche')"><span class="sabor-dot" style="background:#ecf0f1;"></span> Crema de Leche</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Chocolate')"><span class="sabor-dot" style="background:#4e342e;"></span> Chocolate</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Rosa')"><span class="sabor-dot" style="background:#fd79a8;"></span> Rosa</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Menta')"><span class="sabor-dot" style="background:#00b894;"></span> Menta</div>
+                        <div class="sabor-btn" onclick="toggleSabor(this, 'Chicle')"><span class="sabor-dot" style="background:#e84393;"></span> Chicle</div>
+                    </div>
+                </div>
+
+                <!-- PASO 3: TOPPINGS -->
+                <div class="card-step">
+                    <div class="step-header">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            <span>Toppings (Incluidos)</span>
+                        </div>
+                    </div>
+                    <div class="grid-sabores">
+                        <div class="topping-btn" onclick="toggleTopping(this, 'Leche Condensada')">🍼 Leche Condensada</div>
+                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Chocolate Amargo')">🍫 Jarabe de Chocolate Amargo</div>
+                        <div class="topping-btn" onclick="toggleTopping(this, 'Jarabe de Fresa')">🍓 Jarabe de Fresa</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: RESUMEN DE ORDEN -->
+            <div>
+                <div class="resumen-card">
+                    <div class="resumen-title">🧾 Resumen de Orden</div>
+                    
+                    <label style="font-size:11px; font-weight:700; color:#7f8c8d; text-transform:uppercase;">Nombre del Cliente:</label>
+                    <input type="text" id="nombreCliente" class="form-input-cliente" placeholder="Ej: Carlos" autocomplete="off">
+
+                    <div class="resumen-detalles">
+                        <div class="resumen-item">
+                            <span>Tamaño:</span>
+                            <strong id="lblTamano">Grande ($1.00)</strong>
+                        </div>
+                        <div class="resumen-item">
+                            <span>Sabores:</span>
+                            <strong id="lblSabores" style="text-align:right; max-width:180px;">Sin seleccionar</strong>
+                        </div>
+                        <div class="resumen-item" style="margin-top:4px;">
+                            <span>Toppings:</span>
+                            <strong id="lblToppings" style="text-align:right; max-width:180px;">Ninguno</strong>
+                        </div>
+                    </div>
+
+                    <div class="resumen-total-box">
+                        <span style="font-size:14px; font-weight:700; color:#2d3436;">Total a Pagar:</span>
+                        <div class="total-monto">$<span id="txtTotal">1.00</span></div>
+                    </div>
+
+                    <button class="btn-confirmar" onclick="enviarPedido()">
+                        <span>✓ Confirmar & Pedir Turno</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANTALLA DIGITAL DE TURNOS EN VIVO -->
+        <div class="turnos-section">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:16px; font-weight:800; color:#2d3436; display:flex; align-items:center; gap:8px;">
+                    📺 Pantalla de Turnos
+                </h3>
+                <span style="font-size:11px; color:#00b894; font-weight:700;">● Conectado en tiempo real</span>
+            </div>
+
+            <div class="turnos-grid">
+                <div class="turno-actual-box">
+                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; opacity:0.9;">Último Turno Llamado</div>
+                    <div class="turno-num-grande" id="dispUltimoTurno">#--</div>
+                    <div style="font-size:12px; opacity:0.9;" id="dispUltimoCliente">Esperando pedidos...</div>
+                </div>
+
+                <div class="cola-espera-box">
+                    <div style="font-size:12px; font-weight:700; color:#7f8c8d; text-transform:uppercase;">En Cola de Espera:</div>
+                    <div class="cola-tags" id="dispColaEsperando">
+                        <span style="font-size:12px; color:#a0aec0;">No hay turnos pendientes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE RECIBO DE TURNO -->
+    <div id="modalTicket" class="modal-overlay">
+        <div class="ticket-card">
+            <span class="ticket-badge-success">¡Tu Turno está Registrado! 🎉</span>
+            <div style="font-size:12px; color:#636e72;">Número de Orden</div>
+            <div class="ticket-turno-val" id="tckNumero">#1</div>
+            
+            <div class="ticket-info-box">
+                <div><strong>Cliente:</strong> <span id="tckNombre">Carlos</span></div>
+                <div><strong>Tamaño:</strong> <span id="tckTamano">Grande</span></div>
+                <div><strong>Sabores:</strong> <span id="tckSabores">Limón, Maracuyá</span></div>
+                <div><strong>Toppings:</strong> <span id="tckToppings">Leche Condensada</span></div>
+                <div style="margin-top:6px; border-top:1px dashed #cbd5e0; padding-top:4px; font-size:13px;">
+                    <strong>Total:</strong> <span style="color:#00b894; font-weight:800;" id="tckTotal">$1.00</span>
+                </div>
+            </div>
+
+            <p style="font-size:11px; color:#7f8c8d; margin-bottom:15px;">Por favor estate atento a la pantalla para retirar tu granizado en caja.</p>
+            <button class="btn-cerrar-ticket" onclick="cerrarTicket()">Entendido / Cerrar</button>
+        </div>
+    </div>
+
+    <!-- TOAST ALERT -->
+    <div id="toast" class="toast-notif">
+        <span id="toastMsg">Notificación</span>
+    </div>
+
+    <!-- FIREBASE SERVICES -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPFKZ5l1QQs1Fot_i3N8niyzVj1jnahCU",
+            authDomain: "granizados-minelly.firebaseapp.com",
+            projectId: "granizados-minelly",
+            storageBucket: "granizados-minelly.firebasestorage.app",
+            messagingSenderId: "344503057848",
+            appId: "1:344503057848:web:1e92d1310bcaca6ccca34d",
+            measurementId: "G-E6CRBEDQ3X"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ESTADO DE LA APLICACIÓN
+        let tamanoSeleccionado = { nombre: 'Grande', precio: 1.00 };
+        let saboresSeleccionados = [];
+        let toppingsSeleccionados = [];
+        let contadorTurnoSecuencia = 1;
+
+        // SELECCIONAR TAMAÑO
+        window.seleccionarTamano = function(element) {
+            document.querySelectorAll('.tamano-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            tamanoSeleccionado.nombre = element.getAttribute('data-nombre');
+            tamanoSeleccionado.precio = parseFloat(element.getAttribute('data-precio'));
+
+            actualizarResumen();
+        };
+
+        // TOGGLE SABORES (MÁXIMO 4)
+        window.toggleSabor = function(element, saborNombre) {
+            const index = saboresSeleccionados.indexOf(saborNombre);
+            
+            if (index > -1) {
+                saboresSeleccionados.splice(index, 1);
+                element.classList.remove('selected');
+            } else {
+                if (saboresSeleccionados.length >= 4) {
+                    mostrarToast("⚠️ Máximo 4 sabores por granizado");
+                    return;
+                }
+                saboresSeleccionados.push(saborNombre);
+                element.classList.add('selected');
+            }
+
+            document.getElementById('saboresCounter').innerText = `${saboresSeleccionados.length}/4 seleccionados`;
+            actualizarResumen();
+        };
+
+        // TOGGLE TOPPINGS
+        window.toggleTopping = function(element, toppingNombre) {
+            const index = toppingsSeleccionados.indexOf(toppingNombre);
+            if (index > -1) {
+                toppingsSeleccionados.splice(index, 1);
+                element.classList.remove('selected');
+            } else {
+                toppingsSeleccionados.push(toppingNombre);
+                element.classList.add('selected');
+            }
+            actualizarResumen();
+        };
+
+        function actualizarResumen() {
+            document.getElementById('lblTamano').innerText = `${tamanoSeleccionado.nombre} ($${tamanoSeleccionado.precio.toFixed(2)})`;
+            document.getElementById('lblSabores').innerText = saboresSeleccionados.length > 0 ? saboresSeleccionados.join(', ') : 'Sin seleccionar';
+            document.getElementById('lblToppings').innerText = toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno';
+            document.getElementById('txtTotal').innerText = tamanoSeleccionado.precio.toFixed(2);
+        }
+
+        // ENVIAR PEDIDO A FIREBASE
+        window.enviarPedido = async function() {
+            const nombre = document.getElementById('nombreCliente').value.trim();
+
+            if (!nombre) {
+                mostrarToast("⚠️ Por favor ingresa tu nombre");
+                document.getElementById('nombreCliente').focus();
+                return;
+            }
+
+            if (saboresSeleccionados.length === 0) {
+                mostrarToast("⚠️ Elige al menos 1 sabor para tu granizado");
+                return;
+            }
+
+            const numTurnoActual = contadorTurnoSecuencia;
+
+            const nuevoPedido = {
+                numeroOrden: numTurnoActual,
+                hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+                nombre: nombre,
+                tamano: tamanoSeleccionado.nombre,
+                sabores: saboresSeleccionados.join(', '),
+                toppings: toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno',
+                total: tamanoSeleccionado.precio,
+                creadoEn: Date.now()
+            };
+
+            try {
+                await addDoc(collection(db, "pedidos"), nuevoPedido);
+
+                // LLENAR MODAL DE TICKET
+                document.getElementById('tckNumero').innerText = `#${numTurnoActual}`;
+                document.getElementById('tckNombre').innerText = nombre;
+                document.getElementById('tckTamano').innerText = tamanoSeleccionado.nombre;
+                document.getElementById('tckSabores').innerText = saboresSeleccionados.join(', ');
+                document.getElementById('tckToppings').innerText = toppingsSeleccionados.length > 0 ? toppingsSeleccionados.join(', ') : 'Ninguno';
+                document.getElementById('tckTotal').innerText = `$${tamanoSeleccionado.precio.toFixed(2)}`;
+
+                document.getElementById('modalTicket').style.display = 'flex';
+                mostrarToast("✅ Pedido enviado correctamente");
+
+                // REINICIAR FORMULARIO
+                document.getElementById('nombreCliente').value = '';
+                saboresSeleccionados = [];
+                toppingsSeleccionados = [];
+                document.querySelectorAll('.sabor-btn, .topping-btn').forEach(el => el.classList.remove('selected'));
+                document.getElementById('saboresCounter').innerText = "0/4 seleccionados";
+                actualizarResumen();
+
+            } catch (error) {
+                console.error("Error al enviar pedido:", error);
+                mostrarToast("❌ Error de conexión al guardar pedido");
+            }
+        };
+
+        window.cerrarTicket = function() {
+            document.getElementById('modalTicket').style.display = 'none';
+        };
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // ESCUCHAR LISTA DE TURNOS EN TIEMPO REAL
+        onSnapshot(collection(db, "pedidos"), (snapshot) => {
+            let pedidos = [];
+            snapshot.forEach(docSnap => {
+                pedidos.push(docSnap.data());
+            });
+            pedidos.sort((a, b) => a.creadoEn - b.creadoEn);
+
+            // Calcular siguiente número de turno de forma secuencial empezando en 1
+            if (pedidos.length > 0) {
+                const maxTurnoActual = Math.max(...pedidos.map(p => p.numeroOrden || 0));
+                contadorTurnoSecuencia = maxTurnoActual + 1;
+            } else {
+                contadorTurnoSecuencia = 1;
+            }
+
+            // Actualizar cola en pantalla
+            const contenedorCola = document.getElementById('dispColaEsperando');
+            if (pedidos.length === 0) {
+                contenedorCola.innerHTML = '<span style="font-size:12px; color:#a0aec0;">No hay turnos pendientes</span>';
+                document.getElementById('dispUltimoTurno').innerText = '#--';
+                document.getElementById('dispUltimoCliente').innerText = 'Esperando pedidos...';
+            } else {
+                contenedorCola.innerHTML = '';
+                pedidos.forEach(p => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag-turno';
+                    tag.innerText = `#${p.numeroOrden} - ${p.nombre}`;
+                    contenedorCola.appendChild(tag);
+                });
+
+                // Mostrar el primer pedido de la cola como el actual en atención
+                const actual = pedidos[0];
+                document.getElementById('dispUltimoTurno').innerText = `#${actual.numeroOrden}`;
+                document.getElementById('dispUltimoCliente').innerText = `En preparación: ${actual.nombre}`;
+            }
+        });
+    </script>
+</body>
+</html>
